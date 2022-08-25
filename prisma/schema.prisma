@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Question {
+  id                        String                   @id @default(uuid())
+  statement                 String
+  value                     Float
+  AssessmentQuestionnaire   AssessmentQuestionnaire? @relation(fields: [assessmentQuestionnaireId], references: [id])
+  assessmentQuestionnaireId String?
+}
+
+model AssessmentQuestionnaire {
+  id        String     @id @default(uuid())
+  title     String
+  questions Question[]
+}
